@@ -1,6 +1,6 @@
 package gestion.incident.incident.utilisateur;
 
-import gestion.incident.incident.EnumIncidents.MesRoles;
+import gestion.incident.incident.enumeration.MesRoles;
 
 public class Utilisateur {
     private Long idUtil;

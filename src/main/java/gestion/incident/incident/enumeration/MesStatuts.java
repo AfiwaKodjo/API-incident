@@ -1,4 +1,4 @@
-package gestion.incident.incident.EnumIncidents;
+package gestion.incident.incident.enumeration;
 
 public enum MesStatuts {
     Attente,

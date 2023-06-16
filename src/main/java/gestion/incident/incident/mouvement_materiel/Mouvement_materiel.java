@@ -1,6 +1,6 @@
 package gestion.incident.incident.mouvement_materiel;
 
-import gestion.incident.incident.EnumIncidents.MesMouvements;
+import gestion.incident.incident.enumeration.MesMouvements;
 import gestion.incident.incident.incidents.Incident;
 import gestion.incident.incident.materiel.Materiel;
 import jakarta.persistence.*;

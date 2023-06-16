@@ -1,8 +1,8 @@
 package gestion.incident.incident.incidents;
 
-import gestion.incident.incident.EnumIncidents.MesCanaux;
-import gestion.incident.incident.EnumIncidents.MesPriorites;
-import gestion.incident.incident.EnumIncidents.MesStatuts;
+import gestion.incident.incident.enumeration.MesCanaux;
+import gestion.incident.incident.enumeration.MesPriorites;
+import gestion.incident.incident.enumeration.MesStatuts;
 import gestion.incident.incident.agence.Agence;
 import gestion.incident.incident.client.Client;
 import gestion.incident.incident.procedure.Procedure;

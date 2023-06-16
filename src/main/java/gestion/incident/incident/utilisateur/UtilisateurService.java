@@ -1,7 +1,5 @@
 package gestion.incident.incident.utilisateur;
-
 import gestion.incident.incident.exception.*;
-import gestion.incident.incident.procedure.Procedure;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
