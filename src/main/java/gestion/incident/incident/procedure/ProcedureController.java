@@ -44,7 +44,7 @@ public class ProcedureController {
 
     //Afficher une procédure par rapport à son nom
     @GetMapping("/api/procedures/")
-    public Procedure getProcedureByNom(@PathParam("nom") Long nomProcedure ){
+    public Procedure getProcedureByNom(@PathParam("nomProcedure") String nomProcedure ){
         return procedureService.getProcedureByNom(nomProcedure);
 
     }

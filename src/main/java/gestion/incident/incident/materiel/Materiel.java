@@ -1,9 +1,20 @@
 package gestion.incident.incident.materiel;
 
+
+import gestion.incident.incident.procedure.Procedure;
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "materiel")
 public class Materiel {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idMateriel;
     private String nomMateriel;
     private Integer quantiteMateriel=0;
+    @ManyToOne
+    @JoinColumn(name = "fk_procedure_id")
+    private Procedure procedure;
 
     public Materiel() {
     }
@@ -44,5 +55,14 @@ public class Materiel {
 
     public void setQuantiteMateriel(Integer quantiteMateriel) {
         this.quantiteMateriel = quantiteMateriel;
+    }
+
+    @Override
+    public String toString() {
+        return "Materiel{" +
+                "idMateriel=" + idMateriel +
+                ", nomMateriel='" + nomMateriel + '\'' +
+                ", quantiteMateriel=" + quantiteMateriel +
+                '}';
     }
 }

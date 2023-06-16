@@ -10,6 +10,7 @@ public class Procedure {
     private Long idProcedure;
     private String nomProcedure;
     private String descriptionProcedure;
+
     public Procedure() {
     }
 
