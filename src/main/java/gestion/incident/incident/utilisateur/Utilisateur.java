@@ -1,25 +1,61 @@
 package gestion.incident.incident.utilisateur;
 
+import gestion.incident.incident.client.Client;
 import gestion.incident.incident.enumeration.MesRoles;
+import gestion.incident.incident.incidents.Incident;
+import gestion.incident.incident.materiel.Materiel;
+import gestion.incident.incident.procedure.Procedure;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-public class Utilisateur {
-    private Long idUtil;
+import java.util.Collection;
+import java.util.List;
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "utilisateur")
+public class Utilisateur implements UserDetails {
+    @Id
+    @GeneratedValue
+    private Long id;
     private String nom;
     private String prenom;
     private String mot_de_passe;
     private String email;
+    @Enumerated(EnumType.STRING)
     private MesRoles role;
 
-    public Utilisateur() {
+    @OneToMany
+    @JoinColumn(name = "fk_Util_id")
+    private List<Incident>incidents;
+    @OneToMany
+    @JoinColumn(name = "fk_UtilProced_id")
+    private List<Procedure>procedures;
+    @OneToMany
+    @JoinColumn(name = "fk_UtilCli_id")
+    private List<Client>clients;
+    @OneToMany
+    @JoinColumn(name = "fk_UtilMat_id")
+    private List<Materiel>materiels;
+
+   /* public Utilisateur() {
     }
 
-    public Utilisateur(Long idUtil,
+    public Utilisateur(Long id,
                        String nom,
                        String prenom,
                        String mot_de_passe,
                        String email,
                        MesRoles role) {
-        this.idUtil = idUtil;
+        this.id = id;
         this.nom = nom;
         this.prenom = prenom;
         this.mot_de_passe = mot_de_passe;
@@ -39,12 +75,12 @@ public class Utilisateur {
         this.role = role;
     }
 
-    public Long getIdUtil() {
-        return idUtil;
+    public Long getId() {
+        return id;
     }
 
-    public void setIdUtil(Long idUtil) {
-        this.idUtil = idUtil;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNom() {
@@ -90,12 +126,51 @@ public class Utilisateur {
     @Override
     public String toString() {
         return "Utilisateur{" +
-                "idUtil=" + idUtil +
+                "idUtil=" + id +
                 ", nom='" + nom + '\'' +
                 ", prenom='" + prenom + '\'' +
                 ", mot_de_passe='" + mot_de_passe + '\'' +
                 ", email='" + email + '\'' +
                 ", role=" + role +
                 '}';
+    }*/
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+       // return List.of(new SimpleGrantedAuthority(role.name()));
+        return role.getAuthorities();
     }
+
+    @Override
+    public String getPassword() {
+        return mot_de_passe;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+
+
 }

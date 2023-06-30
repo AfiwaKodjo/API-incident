@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 @Repository
 public interface IncidentRepository extends JpaRepository<Incident, Long> {
-    Optional<Incident> findByNom(String nomIncident);
+    Optional<Incident> findByNomIncident(String nomIncident);
 }

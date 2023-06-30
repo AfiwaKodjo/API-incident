@@ -65,7 +65,7 @@ public class IncidentService {
     }
 
     public Incident getIncidentByNom(String nomIncident){
-        return incidentRepository.findByNom(nomIncident).orElseThrow(
+        return incidentRepository.findByNomIncident(nomIncident).orElseThrow(
                 ()
                         -> new IncidentNotFoundException(
                         "{Un incident avec le nom " + nomIncident+ " n'existe pas}"));

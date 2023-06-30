@@ -11,7 +11,7 @@ public class ProcedureController {
     @Autowired
     ProcedureService procedureService;
     //Afficher toutes les procédures
-    @GetMapping("/api/procedures")
+    @GetMapping("/api/procedures/get")
     public Collection<Procedure> getAllProcedure(){
         return procedureService.getAllProcedure();
     }

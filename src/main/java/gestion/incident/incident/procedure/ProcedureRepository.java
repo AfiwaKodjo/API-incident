@@ -7,6 +7,6 @@ import java.util.Optional;
 
 @Repository
 public interface ProcedureRepository extends JpaRepository <Procedure, Long> {
-    Optional<Procedure> findByNom(String nomProcedure);
+    Optional<Procedure> findByNomProcedure(String nomProcedure);
 
 }

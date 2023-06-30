@@ -7,5 +7,5 @@ import java.util.Optional;
 
 @Repository
 public interface Mouvement_materielRepository extends JpaRepository<Mouvement_materiel, Long> {
-    Optional<Mouvement_materiel>findByNom(String libelleMouvement_materiel);
+    //Optional<Mouvement_materiel>findByLibelleMouvement_materiel(String libelleMouvement_materiel);
 }

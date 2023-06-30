@@ -1,16 +1,18 @@
 package gestion.incident.incident.client;
 
 import jakarta.websocket.server.PathParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
 @RestController
 public class ClientController {
-
+    @Autowired
     ClientService clientService;
     //Afficher tous les éléments de la base de données
-    @GetMapping(value = "/api/clients")
+    @GetMapping(value = "/api/clients/get")
     public Collection<Client> getAllClient(){
         return clientService.getAllClient();
     }

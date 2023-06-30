@@ -59,7 +59,7 @@ public class AgenceService {
     }
 
     public Agence getAgenceByNom(String lieuAgence){
-        return agenceRepository.findByNom(lieuAgence).orElseThrow(
+        return agenceRepository.findByLieuAgence(lieuAgence).orElseThrow(
                 ()
                         -> new AgenceNotFoundException(
                         "{Une agence avec le nom de lieu" + lieuAgence+ " n'existe pas}"));

@@ -12,7 +12,7 @@ public class AgenceController {
     AgenceService agenceService;
 
     //Afficher tous les éléments de la base de données
-    @GetMapping(value = "/api/agences")
+    @GetMapping(value = "/api/agences/get")
     public List<Agence> getAllAgence(){
         return agenceService.getAllAgence();
     }

@@ -60,7 +60,7 @@ public class MaterielService {
     }
 
     public Materiel getMaterielByNom(String nomMateriel){
-        return materielRepository.findByNom(nomMateriel).orElseThrow(
+        return materielRepository.findByNomMateriel(nomMateriel).orElseThrow(
                 ()
                         -> new MaterielNotFoundException(
                         "{Un materiel avec le nom " + nomMateriel+ " n'existe pas}"));

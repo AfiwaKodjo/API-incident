@@ -16,8 +16,8 @@ public class UtilisateurService {
     }
 
     public String addUtilisateur(Utilisateur u) {
-        Utilisateur existingUtilisateur = utilisateurRepository.findById(u.getIdUtil()).orElse(null);
-        if (existingUtilisateur == null){
+        Utilisateur existingUser = utilisateurRepository.findById(u.getId()).orElse(null);
+        if (existingUser == null){
             utilisateurRepository.save(u);
             return "L'utilisateur a été ajouté avec succès";
         }else
@@ -26,32 +26,32 @@ public class UtilisateurService {
         }
     }
 
-    public Utilisateur get(Long idUtil) {
-        return utilisateurRepository.findById(idUtil).orElseThrow(
+    public Utilisateur get(Long id) {
+        return utilisateurRepository.findById(id).orElseThrow(
                 ()
                         -> new UtilisateurNotFoundException(
-                        "{Un utilisateur avec l'id " + idUtil+ " n'existe pas}"));
+                        "{Un utilisateur avec l'id " + id+ " n'existe pas}"));
     }
 
-    public String deleteUtilisateurUsingId(Long idUtil){
-        if (!utilisateurRepository.existsById(idUtil)){
-            throw new UtilisateurBadRequestException("{L'id "+idUtil+" n'existe pas. Revoyez votre saisie.}");
+    public String deleteUtilisateurUsingId(Long id){
+        if (!utilisateurRepository.existsById(id)){
+            throw new UtilisateurBadRequestException("{L'id "+id+" n'existe pas. Revoyez votre saisie.}");
         }
-        utilisateurRepository.deleteById(idUtil);
-        return "{L'utilisateur"+idUtil+" a été bien supprimé}";
+        utilisateurRepository.deleteById(id);
+        return "{L'utilisateur "+id+" a été bien supprimé}";
     }
 
-    public String updateUtilisateur(Utilisateur utilisateur) {
-        Utilisateur existingUtilisateur = utilisateurRepository.findById(utilisateur.getIdUtil()).orElse(null);
-        if(existingUtilisateur == null){
+    public String updateUtilisateur(Utilisateur user) {
+        Utilisateur existingUser = utilisateurRepository.findById(user.getId()).orElse(null);
+        if(existingUser == null){
             throw new UtilisateurNotFoundException("{Cet utilisateur n'existe pas}");
         }
         else{
-            existingUtilisateur.setNom(utilisateur.getNom());
-            existingUtilisateur.setPrenom(utilisateur.getPrenom());
-            existingUtilisateur.setMot_de_passe(utilisateur.getMot_de_passe());
-            existingUtilisateur.setEmail(utilisateur.getEmail());
-            utilisateurRepository.save(existingUtilisateur);
+            existingUser.setNom(user.getNom());
+            existingUser.setPrenom(user.getPrenom());
+            existingUser.setMot_de_passe(user.getMot_de_passe());
+            existingUser.setEmail(user.getEmail());
+            utilisateurRepository.save(existingUser);
             return "{Votre utilisateur a été mis à jour}";
         }
 

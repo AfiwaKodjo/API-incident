@@ -3,29 +3,31 @@ package gestion.incident.incident.procedure;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "procedure")
-public class Procedure {
+@Table(name = "demarche")
+public class Procedure{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idProcedure;
+    @Column(name = "nomProcedure")
     private String nomProcedure;
-    private String descriptionProcedure;
+    @Column(name = "libelleProcedure")
+    private String libelleProcedure;
 
     public Procedure() {
     }
 
     public Procedure(Long idProcedure,
                      String nomProcedure,
-                     String descriptionProcedure) {
+                     String libelleProcedure) {
         this.idProcedure = idProcedure;
         this.nomProcedure = nomProcedure;
-        this.descriptionProcedure = descriptionProcedure;
+        this.libelleProcedure = libelleProcedure;
     }
 
     public Procedure(String nomProcedure,
-                     String descriptionProcedure) {
+                     String libelleProcedure) {
         this.nomProcedure = nomProcedure;
-        this.descriptionProcedure = descriptionProcedure;
+        this.libelleProcedure = libelleProcedure;
     }
 
     public Long getIdProcedure() {
@@ -44,12 +46,12 @@ public class Procedure {
         this.nomProcedure = nomProcedure;
     }
 
-    public String getDescriptionProcedure() {
-        return descriptionProcedure;
+    public String getLibelleProcedure() {
+        return libelleProcedure;
     }
 
-    public void setDescriptionProcedure(String descriptionProcedure) {
-        this.descriptionProcedure = descriptionProcedure;
+    public void setLibelleProcedure(String libelleProcedure) {
+        this.libelleProcedure = libelleProcedure;
     }
 
     @Override
@@ -57,7 +59,7 @@ public class Procedure {
         return "Procedure{" +
                 "idProcedure=" + idProcedure +
                 ", nomProcedure='" + nomProcedure + '\'' +
-                ", descriptionProcedure='" + descriptionProcedure + '\'' +
+                ", libelleProcedure='" + libelleProcedure + '\'' +
                 '}';
     }
 }

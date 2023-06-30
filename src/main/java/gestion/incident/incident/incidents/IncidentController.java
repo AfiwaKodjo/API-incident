@@ -12,7 +12,7 @@ public class IncidentController {
     IncidentService incidentService;
 
 //Afficher tous les incidents
-    @GetMapping("/api/incidents")
+    @GetMapping("/api/incidents/get")
     public Collection<Incident> getAllIncident(){
         return incidentService.getAllIncident();
     }
@@ -24,21 +24,21 @@ public class IncidentController {
     }
 
     //Afficher un incident de la base de données
-    @GetMapping("/api/incidents/{id}/get")
+    @GetMapping("/api/incidents/{idIncident}/get")
     public Incident getIncidentById(@PathVariable("idIncident") Long idIncident ){
         return incidentService.get(idIncident);
 
     }
 
     //Supprimer un élément de la base de données
-    @DeleteMapping(value="/api/incidents/{id}/delete")
+    @DeleteMapping(value="/api/incidents/{idIncident}/delete")
     public String deleteIncident(@PathVariable("idIncident") Long idIncident){
         return incidentService.deleteIncidentUsingId(idIncident);
     }
 
 
     //Mettre à jour un élément de la base de données
-    @PutMapping(value="/api/incidents/{id}/put")
+    @PutMapping(value="/api/incidents/{idIncident}/put")
     public String updateIncident(@RequestBody Incident incident){
         return incidentService.updateIncident(incident);
     }

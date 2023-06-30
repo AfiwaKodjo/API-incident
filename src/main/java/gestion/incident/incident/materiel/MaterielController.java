@@ -14,7 +14,7 @@ public class MaterielController {
     ProcedureRepository procedureRepository;
 
     //Afficher tous les éléments de la base de données
-    @GetMapping(value = "/api/materiels")
+    @GetMapping(value = "/api/materiels/get")
     public List<Materiel> getAllMateriel(){
         return materielService.getAllMateriel();
     }

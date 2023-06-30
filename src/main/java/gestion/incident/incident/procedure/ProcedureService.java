@@ -42,7 +42,7 @@ public class ProcedureService {
         }
         else{
             existingProcedure.setNomProcedure(procedure.getNomProcedure());
-            existingProcedure.setDescriptionProcedure(procedure.getDescriptionProcedure());
+            existingProcedure.setLibelleProcedure(procedure.getLibelleProcedure());
             procedureRepository.save(existingProcedure);
             return "{Votre procedure a été mise à jour}";
 
@@ -59,7 +59,7 @@ public class ProcedureService {
     }
 
     public Procedure getProcedureByNom(String nomProcedure){
-        return procedureRepository.findByNom(nomProcedure).orElseThrow(
+        return procedureRepository.findByNomProcedure(nomProcedure).orElseThrow(
                 ()
                         -> new ProcedureNotFoundException(
                         "{Une procedure avec le nom " + nomProcedure+ " n'existe pas}"));

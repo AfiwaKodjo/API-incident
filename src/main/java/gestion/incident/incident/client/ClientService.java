@@ -39,7 +39,6 @@ public class ClientService {
             throw new ClientNotFoundException("{Ce client n'existe pas}");
         }else{
             existingClient.setNomClient(client.getNomClient());
-            existingClient.setPrenomClient(client.getPrenomClient());
             existingClient.setAdresseClient(client.getAdresseClient());
             existingClient.setContactClient(client.getContactClient());
             existingClient.setEmailClient(client.getEmailClient());
@@ -58,7 +57,7 @@ public class ClientService {
 
 
     public Client getClientByNom(String nomClient){
-        return clientRepository.findByNom(nomClient).orElseThrow(
+        return clientRepository.findByNomClient(nomClient).orElseThrow(
                 ()
                         -> new ClientNotFoundException(
                         "{Un client avec le nom " + nomClient+ " n'existe pas}"));

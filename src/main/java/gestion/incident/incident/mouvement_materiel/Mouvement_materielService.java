@@ -61,12 +61,12 @@ public class Mouvement_materielService {
 
     }
 
-    public Mouvement_materiel getMouvement_materielByNom(String libelleMouvement_materiel){
-        return mouvement_materielRepository.findByNom(libelleMouvement_materiel).orElseThrow(
+   /* public Mouvement_materiel getMouvement_materielByNom(String libelleMouvement_materiel){
+        return mouvement_materielRepository.findByLibelleMouvement_materiel(libelleMouvement_materiel).orElseThrow(
                 ()
                         -> new Mouvement_materielNotFoundException(
                         "{Un mouvement de materiel avec le libelle " + libelleMouvement_materiel+ " n'existe pas}"));
 
-    }
+    }*/
 
 }
