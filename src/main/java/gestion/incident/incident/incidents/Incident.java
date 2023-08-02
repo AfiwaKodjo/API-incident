@@ -19,16 +19,23 @@ public class Incident {
     private String descriptionIncident;
     private  LocalDateTime  dateCreationIncident;
     private LocalDateTime dateClotureIncident;
+    @Enumerated(EnumType.STRING)
     private MesPriorites prioriteIncident;
+    @Enumerated(EnumType.STRING)
     private MesStatuts statutIncident;
+    @Enumerated(EnumType.STRING)
     private MesCanaux canalIncident;
     @ManyToOne
     @JoinColumn(name = "fk_agence_id")
     private Agence agence;
 
-    @ManyToOne
+   /* @ManyToOne
     @JoinColumn(name = "fk_client_id")
-    private Client client;
+    private Client client;*/
+
+   /* @ManyToOne
+    @JoinColumn(name = "fk_utilisateur_id")
+    private Utilisateur utilisateur;*/
 
     @ManyToOne
     @JoinColumn(name = "fk_procedure_id")
@@ -47,7 +54,9 @@ public class Incident {
                     MesStatuts statutIncident,
                     MesCanaux canalIncident,
                     Agence agence,
-                    Client client) {
+                    Client client,
+                    //Utilisateur utilisateur,
+                    Procedure procedure) {
         this.idIncident = idIncident;
         this.nomIncident=nomIncident;
         this.descriptionIncident = descriptionIncident;
@@ -57,7 +66,9 @@ public class Incident {
         this.statutIncident = statutIncident;
         this.canalIncident = canalIncident;
         this.agence = agence;
-        this.client=client;
+       // this.client=client;
+       // this.utilisateur = utilisateur;
+        this.procedure=procedure;
     }
 
 
@@ -78,7 +89,7 @@ public class Incident {
         this.statutIncident = statutIncident;
         this.canalIncident = canalIncident;
         this.agence = agence;
-        this.client=client;
+        //this.client=client;
     }
 
     public Long getIdIncident() {
@@ -103,6 +114,19 @@ public class Incident {
 
     public void setDateCreationIncident(LocalDateTime dateCreationIncident) {
         this.dateCreationIncident = dateCreationIncident;
+    }
+
+    public Incident(Long idIncident, String nomIncident, String descriptionIncident, LocalDateTime dateCreationIncident, LocalDateTime dateClotureIncident, MesPriorites prioriteIncident, MesStatuts statutIncident, MesCanaux canalIncident, Agence agence, Procedure procedure) {
+        this.idIncident = idIncident;
+        this.nomIncident = nomIncident;
+        this.descriptionIncident = descriptionIncident;
+        this.dateCreationIncident = dateCreationIncident;
+        this.dateClotureIncident = dateClotureIncident;
+        this.prioriteIncident = prioriteIncident;
+        this.statutIncident = statutIncident;
+        this.canalIncident = canalIncident;
+        this.agence = agence;
+        this.procedure = procedure;
     }
 
     public String getNomIncident() {
@@ -153,12 +177,28 @@ public class Incident {
         this.agence = agence;
     }
 
-    public Client getClient() {
+   /* public Client getClient() {
         return client;
+    }*/
+
+   /* public void setClient(Client client) {
+        this.client = client;
+    }*/
+
+    /*public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }*/
+
+    /*public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+    }*/
+
+    public Procedure getProcedure() {
+        return procedure;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+   public void setProcedure(Procedure procedure) {
+        this.procedure = procedure;
     }
 
     @Override
@@ -172,8 +212,8 @@ public class Incident {
                 ", prioriteIncident=" + prioriteIncident +
                 ", statutIncident=" + statutIncident +
                 ", canalIncident=" + canalIncident +
-                ", agence=" + agence +
-                ", client=" + client +
+                //", agence=" + agence +
+               // ", client=" + client +
                 '}';
     }
 }

@@ -19,6 +19,7 @@ public class IncidentService {
 
     public String addIncident(Incident i){
         Incident existingIncident = incidentRepository.findById(i.getIdIncident()).orElse(null);
+        System.out.println(i.getDateClotureIncident());
         if (existingIncident == null){
             incidentRepository.save(i);
             return "L'incident a été ajouté avec succès";

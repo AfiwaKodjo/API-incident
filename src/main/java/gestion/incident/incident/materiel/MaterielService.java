@@ -53,6 +53,8 @@ public class MaterielService {
         else{
             existingMateriel.setNomMateriel(materiel.getNomMateriel());
             existingMateriel.setQuantiteMateriel(materiel.getQuantiteMateriel());
+           // existingMateriel.setUtilisateur(materiel.getUtilisateur());
+            existingMateriel.setProcedure(materiel.getProcedure());
             materielRepository.save(existingMateriel);
             return "{Votre materiel a été mis à jour}";
         }

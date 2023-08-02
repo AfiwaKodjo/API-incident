@@ -1,5 +1,6 @@
 package gestion.incident.incident.procedure;
 
+import gestion.incident.incident.utilisateur.Utilisateur;
 import jakarta.persistence.*;
 
 @Entity
@@ -13,21 +14,29 @@ public class Procedure{
     @Column(name = "libelleProcedure")
     private String libelleProcedure;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_proced_util_id")
+    private Utilisateur utilisateur;
+
     public Procedure() {
     }
 
     public Procedure(Long idProcedure,
                      String nomProcedure,
-                     String libelleProcedure) {
+                     String libelleProcedure,
+                     Utilisateur utilisateur) {
         this.idProcedure = idProcedure;
         this.nomProcedure = nomProcedure;
         this.libelleProcedure = libelleProcedure;
+        this.utilisateur = utilisateur;
     }
 
     public Procedure(String nomProcedure,
-                     String libelleProcedure) {
+                     String libelleProcedure,
+                     Utilisateur utilisateur) {
         this.nomProcedure = nomProcedure;
         this.libelleProcedure = libelleProcedure;
+        this.utilisateur = utilisateur;
     }
 
     public Long getIdProcedure() {
@@ -52,6 +61,15 @@ public class Procedure{
 
     public void setLibelleProcedure(String libelleProcedure) {
         this.libelleProcedure = libelleProcedure;
+    }
+
+
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
     }
 
     @Override

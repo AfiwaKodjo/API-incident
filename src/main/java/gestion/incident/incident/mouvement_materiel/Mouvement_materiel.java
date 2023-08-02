@@ -4,6 +4,7 @@ import gestion.incident.incident.enumeration.MesMouvements;
 import gestion.incident.incident.incidents.Incident;
 import gestion.incident.incident.materiel.Materiel;
 import jakarta.persistence.*;
+import org.hibernate.engine.internal.Cascade;
 
 @Entity
 @Table(name = "mouvement_materiel")
@@ -11,6 +12,7 @@ public class Mouvement_materiel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idMouvement_Materiel;
+    @Enumerated(EnumType.STRING)
     private MesMouvements libelleMouvement_Materiel;
     private Integer quantiteMouvement_Materiel;
     @ManyToOne
@@ -27,11 +29,20 @@ public class Mouvement_materiel {
     public Mouvement_materiel(Long idMouvement_Materiel,
                               MesMouvements libelleMouvement_Materiel,
                               Integer quantiteMouvement_Materiel,
-                              Materiel materiel) {
+                              Materiel materiel,
+                              Incident incident) {
         this.idMouvement_Materiel = idMouvement_Materiel;
         this.libelleMouvement_Materiel = libelleMouvement_Materiel;
         this.quantiteMouvement_Materiel = quantiteMouvement_Materiel;
         this.materiel = materiel;
+    }
+
+    public Incident getIncident() {
+        return incident;
+    }
+
+    public void setIncident(Incident incident) {
+        this.incident = incident;
     }
 
     public Mouvement_materiel(MesMouvements libelleMouvement_Materiel,

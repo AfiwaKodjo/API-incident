@@ -13,15 +13,22 @@ public class Agence {
     private String lieuAgence;
     private String telephoneAgence;
 
+    @ManyToOne
+    @JoinColumn(name ="fk_client_id")
+    private Client client;
+
     public Agence() {
     }
 
     public Agence(Long idAgence,
                   String lieuAgence,
-                  String telephoneAgence) {
+                  String telephoneAgence,
+                  Client client
+                  ) {
         this.idAgence = idAgence;
         this.lieuAgence = lieuAgence;
         this.telephoneAgence = telephoneAgence;
+        this.client = client;
     }
 
     public Agence(String lieuAgence,
@@ -52,6 +59,14 @@ public class Agence {
 
     public void setTelephoneAgence(String telephoneAgence) {
         this.telephoneAgence = telephoneAgence;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     @Override

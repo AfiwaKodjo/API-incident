@@ -15,6 +15,7 @@ public class UtilisateurService {
         return utilisateurRepository.findAll();
     }
 
+
     public String addUtilisateur(Utilisateur u) {
         Utilisateur existingUser = utilisateurRepository.findById(u.getId()).orElse(null);
         if (existingUser == null){
@@ -25,6 +26,7 @@ public class UtilisateurService {
             throw new UtilisateurConflictException("L'utilisateur existe déjà");
         }
     }
+
 
     public Utilisateur get(Long id) {
         return utilisateurRepository.findById(id).orElseThrow(
@@ -49,8 +51,8 @@ public class UtilisateurService {
         else{
             existingUser.setNom(user.getNom());
             existingUser.setPrenom(user.getPrenom());
-            existingUser.setMot_de_passe(user.getMot_de_passe());
             existingUser.setEmail(user.getEmail());
+            existingUser.setRole(user.getRole());
             utilisateurRepository.save(existingUser);
             return "{Votre utilisateur a été mis à jour}";
         }
@@ -64,5 +66,6 @@ public class UtilisateurService {
                         "{Un utilisateur avec le nom " +nom+ " n'existe pas}"));
 
     }
+
 
 }

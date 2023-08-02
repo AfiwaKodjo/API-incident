@@ -1,7 +1,9 @@
 package gestion.incident.incident.materiel;
 
 
+import gestion.incident.incident.client.Client;
 import gestion.incident.incident.procedure.Procedure;
+import gestion.incident.incident.utilisateur.Utilisateur;
 import jakarta.persistence.*;
 
 @Entity
@@ -12,25 +14,37 @@ public class Materiel {
     private Long idMateriel;
     private String nomMateriel;
     private Integer quantiteMateriel=0;
-    @ManyToOne
+    @ManyToOne(cascade= CascadeType.ALL)
     @JoinColumn(name = "fk_procedure_id")
     private Procedure procedure;
+
+    /*@ManyToOne
+    @JoinColumn(name = "fk_utilisateurs_id")
+    private Utilisateur utilisateur;*/
 
     public Materiel() {
     }
 
     public Materiel(Long idMateriel,
                     String nomMateriel,
-                    Integer quantiteMateriel) {
+                    Integer quantiteMateriel,
+                    Procedure procedure,
+                    Utilisateur utilisateur) {
         this.idMateriel = idMateriel;
         this.nomMateriel = nomMateriel;
         this.quantiteMateriel = quantiteMateriel;
+        this.procedure= procedure;
+        //this.utilisateur = utilisateur;
     }
 
     public Materiel(String nomMateriel,
-                    Integer quantiteMateriel) {
+                    Integer quantiteMateriel,
+                    Procedure procedure,
+                    Utilisateur utilisateur) {
         this.nomMateriel = nomMateriel;
         this.quantiteMateriel = quantiteMateriel;
+        this.procedure= procedure;
+        //this.utilisateur=utilisateur;
     }
 
     public Long getIdMateriel() {
@@ -48,6 +62,22 @@ public class Materiel {
     public void setNomMateriel(String nomMateriel) {
         this.nomMateriel = nomMateriel;
     }
+
+   /* public Utilisateur getUtilisateur() {
+        return this.utilisateur;
+    }*/
+
+    public Procedure getProcedure() {
+        return this.procedure;
+    }
+
+    public void setProcedure(Procedure procedure) {
+        this.procedure = procedure;
+    }
+
+   /* public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+    }*/
 
     public Integer getQuantiteMateriel() {
         return quantiteMateriel;

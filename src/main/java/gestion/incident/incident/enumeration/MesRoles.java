@@ -3,7 +3,6 @@ package gestion.incident.incident.enumeration;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.Collections;
 import java.util.List;
@@ -40,7 +39,9 @@ public enum MesRoles {
             DIRECTEUR_UPDATE,
             DIRECTEUR_CREATE,
             DIRECTEUR_DELETE
-    ));
+    )),
+
+    ATTENTE(Set.of());
     @Getter
     private final Set <Permission> permissions;
 

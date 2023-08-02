@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 
 @RestController
+@CrossOrigin("http://localhost:4200")
 public class ProcedureController {
     @Autowired
     ProcedureService procedureService;
+    @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
     //Afficher toutes les procédures
     @GetMapping("/api/procedures/get")
     public Collection<Procedure> getAllProcedure(){

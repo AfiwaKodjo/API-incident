@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 @PreAuthorize("hasRole('ADMIN')")
 public class UtilisateurController {
     @Autowired
@@ -15,14 +16,13 @@ public class UtilisateurController {
     //Afficher tous les éléments de la base de données
     @GetMapping(value = "/api/utilisateurs/get")
     @PreAuthorize("hasAuthority('admin:read')")
-    public List<Utilisateur> getAllUtilisateur(){
+   public List<Utilisateur> getAllUtilisateur(){
         return utilisateurService.getAllUtilisateur();
     }
 
     //Ajouter un élément dans la base de données
     @PostMapping(value = "/api/utilisateurs/post")
     @PreAuthorize("hasAuthority('admin:create')")
-    //@PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public String addUtilisateur(@RequestBody Utilisateur u){
         return utilisateurService.addUtilisateur(u);
     }
@@ -55,4 +55,6 @@ public class UtilisateurController {
         return utilisateurService.getUtilisateurByNom(nom);
 
     }
+
+
 }

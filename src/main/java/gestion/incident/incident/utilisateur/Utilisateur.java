@@ -1,30 +1,32 @@
 package gestion.incident.incident.utilisateur;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import gestion.incident.incident.client.Client;
 import gestion.incident.incident.enumeration.MesRoles;
 import gestion.incident.incident.incidents.Incident;
 import gestion.incident.incident.materiel.Materiel;
 import gestion.incident.incident.procedure.Procedure;
+import gestion.incident.incident.token.Token;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
 @Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
+//@NoArgsConstructor
+//@AllArgsConstructor
 @Entity
 @Table(name = "utilisateur")
 public class Utilisateur implements UserDetails {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(nullable = false)
     private Long id;
     private String nom;
     private String prenom;
@@ -33,18 +35,25 @@ public class Utilisateur implements UserDetails {
     @Enumerated(EnumType.STRING)
     private MesRoles role;
 
-    @OneToMany
+    @OneToMany(mappedBy = "utilisateur", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Token> tokens;
+
+    /*@OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_Util_id")
-    private List<Incident>incidents;
-    @OneToMany
+    @JsonIgnore
+    private List<Incident>incidents;*/
+    /*@OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_UtilProced_id")
-    private List<Procedure>procedures;
-    @OneToMany
+    private List<Procedure>procedures;*/
+    /*@OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_UtilCli_id")
+    @JsonIgnore
     private List<Client>clients;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_UtilMat_id")
-    private List<Materiel>materiels;
+    @JsonIgnore
+    private List<Materiel>materiels;*/
 
    /* public Utilisateur() {
     }
@@ -134,6 +143,76 @@ public class Utilisateur implements UserDetails {
                 ", role=" + role +
                 '}';
     }*/
+
+    public Utilisateur() {
+    }
+
+
+    public Utilisateur(Long id, String nom, String prenom, String mot_de_passe, String email, MesRoles role, List<Token> tokens) {
+        this.id = id;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.mot_de_passe = mot_de_passe;
+        this.email = email;
+        this.role = role;
+        this.tokens = tokens;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public String getMot_de_passe() {
+        return mot_de_passe;
+    }
+
+    public void setMot_de_passe(String mot_de_passe) {
+        this.mot_de_passe = mot_de_passe;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public MesRoles getRole() {
+        return role;
+    }
+
+    public void setRole(MesRoles role) {
+        this.role = role;
+    }
+
+    public List<Token> getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(List<Token> tokens) {
+        this.tokens = tokens;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

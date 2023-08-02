@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 
 @RestController
+@CrossOrigin("http://localhost:4200")
 public class ClientController {
     @Autowired
     ClientService clientService;
+    @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
     //Afficher tous les éléments de la base de données
     @GetMapping(value = "/api/clients/get")
     public Collection<Client> getAllClient(){

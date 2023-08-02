@@ -8,8 +8,10 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 
 import static gestion.incident.incident.enumeration.MesRoles.ADMIN;
 import static gestion.incident.incident.enumeration.MesRoles.DIRECTEUR;
@@ -17,6 +19,7 @@ import static gestion.incident.incident.enumeration.Permission.*;
 import static jakarta.servlet.DispatcherType.ERROR;
 import static jakarta.servlet.DispatcherType.FORWARD;
 import static org.springframework.http.HttpMethod.*;
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
@@ -24,28 +27,33 @@ import static org.springframework.http.HttpMethod.*;
 public class SecurityConfiguration {
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
+    private final LogoutHandler logoutHandler;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .csrf()
                 .disable()
+                .cors()
+                .and()
                 .authorizeHttpRequests(authorize -> authorize
                         .dispatcherTypeMatchers(FORWARD, ERROR).permitAll()
                         .requestMatchers("api/v1/auth/**").permitAll()
                         //.requestMatchers("/api/**").hasAuthority("TECHNICIEN")
                         //.requestMatchers("/api/utilisateurs/**").hasAnyRole(ADMIN.name())
                         //Gestion des utilisateurs par l'admin
-                        .requestMatchers(GET, "/api/utilisateurs/**").hasAnyAuthority(ADMIN_READ.name())
+                        .requestMatchers(GET, "/api/utilisateurs/**").hasAnyAuthority(ADMIN_READ.name(), DIRECTEUR_READ.name(), TECHNICIEN_READ.name())
                         .requestMatchers(POST, "/api/utilisateurs/**").hasAnyAuthority(ADMIN_CREATE.name())
                         .requestMatchers(PUT, "/api/utilisateurs/**").hasAnyAuthority(ADMIN_UPDATE.name())
                         .requestMatchers(DELETE, "/api/utilisateurs/**").hasAnyAuthority(ADMIN_DELETE.name())
+
                         //Gestion des agences par l'admin
-                        .requestMatchers(GET, "/api/agences/**").hasAnyAuthority(ADMIN_READ.name())
+                        .requestMatchers(GET, "/api/agences/**").hasAnyAuthority(ADMIN_READ.name(), DIRECTEUR_READ.name(), TECHNICIEN_READ.name())
                         .requestMatchers(POST, "/api/agences/**").hasAnyAuthority(ADMIN_CREATE.name())
                         .requestMatchers(PUT, "/api/agences/**").hasAnyAuthority(ADMIN_UPDATE.name())
                         .requestMatchers(DELETE, "/api/agences/**").hasAnyAuthority(ADMIN_DELETE.name())
                         //Gestion des clients par l'admin
-                        .requestMatchers(GET, "/api/clients/**").hasAnyAuthority(ADMIN_READ.name())
+                        .requestMatchers(GET, "/api/clients/**").hasAnyAuthority(ADMIN_READ.name(), DIRECTEUR_READ.name(), TECHNICIEN_READ.name())
                         .requestMatchers(POST, "/api/clients/**").hasAnyAuthority(ADMIN_CREATE.name())
                         .requestMatchers(PUT, "/api/clients/**").hasAnyAuthority(ADMIN_UPDATE.name())
                         .requestMatchers(DELETE, "/api/clients/**").hasAnyAuthority(ADMIN_DELETE.name())
@@ -60,7 +68,7 @@ public class SecurityConfiguration {
                         .requestMatchers(PUT, "/api/materiels/**").hasAnyAuthority(ADMIN_UPDATE.name(), RESPONSABLE_UPDATE.name())
                         .requestMatchers(DELETE, "/api/materiels/**").hasAnyAuthority(ADMIN_DELETE.name(), RESPONSABLE_DELETE.name())
                         //Gestion du mouvement des materiels par l'admin
-                        .requestMatchers(GET, "/api/mouvements/**").hasAnyAuthority(ADMIN_READ.name())
+                        .requestMatchers(GET, "/api/mouvements/**").hasAnyAuthority(ADMIN_READ.name(), DIRECTEUR_READ.name(), TECHNICIEN_READ.name())
                         .requestMatchers(POST, "/api/mouvements/**").hasAnyAuthority(ADMIN_CREATE.name())
                         .requestMatchers(PUT, "/api/mouvements/**").hasAnyAuthority(ADMIN_UPDATE.name())
                         .requestMatchers(DELETE, "/api/mouvements/**").hasAnyAuthority(ADMIN_DELETE.name())
@@ -76,12 +84,18 @@ public class SecurityConfiguration {
                 .anyRequest()
                 .authenticated()
                 .and()*/
+                .cors(withDefaults())
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .logout()
+                .logoutUrl("/api/v1/auth/logout")
+                .addLogoutHandler(logoutHandler)
+                .logoutSuccessHandler(((request, response, authentication) -> SecurityContextHolder.clearContext()));
 
         return http.build();
     }
+
+
 }

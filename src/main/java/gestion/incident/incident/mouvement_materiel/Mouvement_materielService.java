@@ -1,9 +1,11 @@
 package gestion.incident.incident.mouvement_materiel;
 
+import gestion.incident.incident.exception.MaterielNotFoundException;
 import gestion.incident.incident.exception.Mouvement_materielBadRequestException;
 import gestion.incident.incident.exception.Mouvement_materielConflictException;
 import gestion.incident.incident.exception.Mouvement_materielNotFoundException;
 import gestion.incident.incident.incidents.IncidentRepository;
+import gestion.incident.incident.materiel.Materiel;
 import gestion.incident.incident.materiel.MaterielRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,19 +34,20 @@ public class Mouvement_materielService {
         }
     }
 
-    public Mouvement_materiel get(Long idMouvement_materiel) {
-        return mouvement_materielRepository.findById(idMouvement_materiel).orElseThrow(
+    public Mouvement_materiel get(Long idMouvement_Materiel) {
+        return mouvement_materielRepository.findById(idMouvement_Materiel).orElseThrow(
                 ()
                         -> new Mouvement_materielNotFoundException(
-                        "{Un mouvement du materiel avec l'id " + idMouvement_materiel+ " n'existe pas}"));
+                        "{Un mouvement du materiel avec l'id " + idMouvement_Materiel+ " n'existe pas}"));
     }
 
-    public String deleteMouvement_materielUsingId(Long idMouvement_materiel){
-        if (!mouvement_materielRepository.existsById(idMouvement_materiel)){
-            throw new Mouvement_materielBadRequestException("{L'id "+idMouvement_materiel+" n'existe pas. Revoyez votre saisie.}");
+
+    public String deleteMouvement_MaterielUsingId(Long idMouvement_Materiel){
+        if (!mouvement_materielRepository.existsById(idMouvement_Materiel)){
+            throw new Mouvement_materielBadRequestException("{L'id "+idMouvement_Materiel+" n'existe pas. Revoyez votre saisie.}");
         }
-        mouvement_materielRepository.deleteById(idMouvement_materiel);
-        return "{Le mouvement de materiel"+idMouvement_materiel+" a été bien supprimé}";
+        mouvement_materielRepository.deleteById(idMouvement_Materiel);
+        return "{Le mouvement de materiel "+idMouvement_Materiel+" a été bien supprimé}";
     }
 
     public String updateMouvement_materiel(Mouvement_materiel mouvement_materiel) {

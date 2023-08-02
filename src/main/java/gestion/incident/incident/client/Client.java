@@ -1,6 +1,8 @@
 package gestion.incident.incident.client;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import gestion.incident.incident.agence.Agence;
+import gestion.incident.incident.utilisateur.Utilisateur;
 import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
 import lombok.Data;
@@ -17,9 +19,13 @@ public class Client {
     private String contactClient;
     private String emailClient;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    /*@OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name ="fk_client_id", referencedColumnName = "idClient")
-    private List <Agence> agence;
+    private List <Agence> agence;*/
+
+    @ManyToOne
+    @JoinColumn(name = "fk_utilisateur_id")
+    private Utilisateur utilisateur;
 
    public Client() {
     }
@@ -28,22 +34,26 @@ public class Client {
                   String nomClient,
                   String adresseClient,
                   String contactClient,
-                  String emailClient) {
+                  String emailClient,
+                  Utilisateur utilisateur) {
         this.idClient = idClient;
         this.nomClient = nomClient;
         this.adresseClient = adresseClient;
         this.contactClient = contactClient;
         this.emailClient = emailClient;
+        this.utilisateur =utilisateur;
     }
 
     public Client(String nomClient,
                   String adresseClient,
                   String contactClient,
-                  String emailClient) {
+                  String emailClient,
+                  Utilisateur utilisateur) {
         this.nomClient = nomClient;
         this.adresseClient = adresseClient;
         this.contactClient = contactClient;
         this.emailClient = emailClient;
+        this.utilisateur = utilisateur;
     }
 
     public Long getIdClient() {
@@ -74,6 +84,14 @@ public class Client {
         return contactClient;
     }
 
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+    }
+
     public void setContactClient(String contactClient) {
         this.contactClient = contactClient;
     }
@@ -86,13 +104,13 @@ public class Client {
         this.emailClient = emailClient;
     }
 
-    public List<Agence> getAgence() {
+    /*public List<Agence> getAgence() {
         return agence;
-    }
+    }*/
 
-    public void setAgence(List<Agence> agence) {
+    /*public void setAgence(List<Agence> agence) {
         this.agence = agence;
-    }
+    }*/
 
     @Override
     public String toString() {
@@ -102,7 +120,7 @@ public class Client {
                 ", adresseClient='" + adresseClient + '\'' +
                 ", contactClient='" + contactClient + '\'' +
                 ", emailClient='" + emailClient + '\'' +
-                ", agence=" + agence +
+                //", agence=" + agence +
                 '}';
     }
 }

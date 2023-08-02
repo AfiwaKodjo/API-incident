@@ -4,7 +4,10 @@ import gestion.incident.incident.exception.AgenceBadRequestException;
 import gestion.incident.incident.exception.AgenceConflictException;
 import gestion.incident.incident.exception.AgenceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -28,6 +31,7 @@ public class AgenceService {
             throw new AgenceConflictException("L'agence existe déjà");
         }
     }
+
 
     public Agence get(Long idAgence) {
         return agenceRepository.findById(idAgence).orElseThrow(

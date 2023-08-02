@@ -8,10 +8,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin("http://localhost:4200")
 public class MaterielController {
     @Autowired
     MaterielService materielService;
     ProcedureRepository procedureRepository;
+    @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 
     //Afficher tous les éléments de la base de données
     @GetMapping(value = "/api/materiels/get")
