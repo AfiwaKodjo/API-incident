@@ -17,9 +17,8 @@ public class ClientService {
     }
 
     public String addClient(Client c){
-        Client existingClient = clientRepository.findById(c.getIdClient()).orElse(null);
-        if (existingClient == null){
-            clientRepository.save(c);
+        Client existingClient = clientRepository.save(c);
+        if (existingClient != null){
             return "Le client a été ajouté avec succès";
         }else{
             throw new ClientConflictException("Le client existe déjà");

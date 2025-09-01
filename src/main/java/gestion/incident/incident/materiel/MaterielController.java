@@ -1,10 +1,20 @@
 package gestion.incident.incident.materiel;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import gestion.incident.incident.enumeration.MesTypes;
+import gestion.incident.incident.procedure.Procedure;
 import gestion.incident.incident.procedure.ProcedureRepository;
+import gestion.incident.incident.procedure.ProcedureService;
 import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -13,6 +23,7 @@ public class MaterielController {
     @Autowired
     MaterielService materielService;
     ProcedureRepository procedureRepository;
+
     @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 
     //Afficher tous les éléments de la base de données
@@ -22,10 +33,27 @@ public class MaterielController {
     }
 
     //Ajouter un élément dans la base de données
-    @PostMapping(value = "/api/materiels/post")
+   /* @PostMapping(value = "/api/materiels/post")
     public String addMateriel(@RequestBody Materiel m){
         return materielService.addMateriel(m);
+    }*/
+
+
+    @PostMapping(value="/api/materiels/post")
+    public String addMateriel(@RequestParam("file") MultipartFile file,
+                              @RequestParam("numeroSerie") String numeroSerie,
+                              @RequestParam("nomMateriel") String nomMateriel,
+                              @RequestParam("typeMachine") MesTypes typeMachine,
+                              @RequestParam("identifiMachine") String identifiMachine,
+                              @RequestParam("quantiteMateriel") Integer quantiteMateriel
+                              ) throws IOException {
+        materielService.addMateriel(file, numeroSerie, nomMateriel, typeMachine,identifiMachine, quantiteMateriel);
+        return "matériel bien ajouté";
     }
+
+
+
+
 
     //Afficher un matériel de la base de données
     @GetMapping(value = "api/materiels/{idMateriel}/get")
@@ -50,6 +78,15 @@ public class MaterielController {
     public Materiel getMaterielByNom(@PathParam("nomProcedure") String nomProcedure ){
         return materielService.getMaterielByNom(nomProcedure);
 
+    }
+
+    @GetMapping("/api/files/Images/{filename}")
+    @ResponseBody
+    public ResponseEntity<Resource> getImageFile(@PathVariable("filename") Long idMateriel) {
+        System.out.println("IMAGE FILE id "+idMateriel+"***********************************");
+        Resource file = materielService.loadImage(idMateriel);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
 }

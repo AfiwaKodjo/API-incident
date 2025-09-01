@@ -4,7 +4,8 @@ import gestion.incident.incident.enumeration.MesMouvements;
 import gestion.incident.incident.incidents.Incident;
 import gestion.incident.incident.materiel.Materiel;
 import jakarta.persistence.*;
-import org.hibernate.engine.internal.Cascade;
+
+import java.util.Date;
 
 @Entity
 @Table(name = "mouvement_materiel")
@@ -15,6 +16,9 @@ public class Mouvement_materiel {
     @Enumerated(EnumType.STRING)
     private MesMouvements libelleMouvement_Materiel;
     private Integer quantiteMouvement_Materiel;
+    private Date date;
+   private String objet;
+    private String statut = "En attente de validation";
     @ManyToOne
     @JoinColumn(name = "fk_materiel_id")
     private Materiel materiel;
@@ -29,12 +33,17 @@ public class Mouvement_materiel {
     public Mouvement_materiel(Long idMouvement_Materiel,
                               MesMouvements libelleMouvement_Materiel,
                               Integer quantiteMouvement_Materiel,
+                              Date date,
+                              String objet,
                               Materiel materiel,
                               Incident incident) {
         this.idMouvement_Materiel = idMouvement_Materiel;
         this.libelleMouvement_Materiel = libelleMouvement_Materiel;
         this.quantiteMouvement_Materiel = quantiteMouvement_Materiel;
+        this.date = date;
+        this.objet = objet;
         this.materiel = materiel;
+        this.incident = incident;
     }
 
     public Incident getIncident() {
@@ -47,10 +56,40 @@ public class Mouvement_materiel {
 
     public Mouvement_materiel(MesMouvements libelleMouvement_Materiel,
                               Integer quantiteMouvement_Materiel,
-                              Materiel materiel) {
+                              Date date,
+                              String objet,
+                              Materiel materiel,
+                              Incident incident) {
         this.libelleMouvement_Materiel = libelleMouvement_Materiel;
         this.quantiteMouvement_Materiel = quantiteMouvement_Materiel;
+        this.date = date;
+        this.objet = objet;
         this.materiel = materiel;
+        this.incident = incident;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public String getStatut() {
+        return statut;
+    }
+
+    public void setStatut(String statut) {
+        this.statut = statut;
+    }
+
+    public String getObjet() {
+        return objet;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public void setObjet(String objet) {
+        this.objet = objet;
     }
 
     public Long getIdMouvement_Materiel() {

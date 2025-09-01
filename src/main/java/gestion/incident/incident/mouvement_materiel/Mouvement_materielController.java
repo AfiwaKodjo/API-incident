@@ -1,11 +1,16 @@
 package gestion.incident.incident.mouvement_materiel;
 
 import gestion.incident.incident.exception.MaterielNotFoundException;
+import gestion.incident.incident.exception.Mouvement_materielConflictException;
+import gestion.incident.incident.exception.Mouvement_materielNotFoundException;
 import gestion.incident.incident.incidents.IncidentService;
 import gestion.incident.incident.materiel.Materiel;
 import gestion.incident.incident.materiel.MaterielService;
 import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,7 +51,7 @@ public class Mouvement_materielController {
 
     //Mettre à jour un élément de la base de données
     @PutMapping(value="/api/mouvements/{idMouvement_Materiel}/put")
-    public String updateMouvement_materiel(@RequestBody Mouvement_materiel mouvement_materiel,@PathVariable("idMouvement_materiel") Long idMouvement_materiel){
+    public String updateMouvement_materiel(@RequestBody Mouvement_materiel mouvement_materiel,@PathVariable("idMouvement_Materiel") Long idMouvement_Materiel){
         return mouvement_materielService.updateMouvement_materiel(mouvement_materiel);
     }
 
@@ -56,6 +61,17 @@ public class Mouvement_materielController {
         return mouvement_materielService.getLibelleMouvement_materielByLibelle(libelleMouvement_materiel);
 
     }*/
+
+    @PostMapping("/api/valider-sortie/{idMouvement_Materiel}")
+    public ResponseEntity<String> validerSortie(@PathVariable Long idMouvement_Materiel) {
+        try {
+            String message = mouvement_materielService.validerSortieMateriel(idMouvement_Materiel);
+            return ResponseEntity.ok(message);
+        } catch (Mouvement_materielConflictException | Mouvement_materielNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 
 
 

@@ -22,9 +22,10 @@ public class AgenceService {
     }
 
     public String addAgence(Agence a) {
-        Agence existingAgence = agenceRepository.findById(a.getIdAgence()).orElse(null);
-        if (existingAgence == null){
-            agenceRepository.save(a);
+        //Agence existingAgence = agenceRepository.findById(a.getIdAgence()).orElse(null);
+        Agence existingAgence = agenceRepository.save(a);
+        if (existingAgence != null){
+           // agenceRepository.save(a);
             return "L'agence a été ajoutée avec succès";
         }else
         {

@@ -49,7 +49,7 @@ public class UtilisateurController {
     }
 
     //Afficher un utilisateur par rapport à son nom
-    @GetMapping("/api/utilisateurs/")
+    @GetMapping("/api/utilisateurs/{nom}")
     @PreAuthorize("hasAuthority('admin:read')")
     public Utilisateur getUtilisateurByNom(@PathParam("nomUtiisateur") String nom ){
         return utilisateurService.getUtilisateurByNom(nom);

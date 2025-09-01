@@ -1,6 +1,8 @@
 package gestion.incident.incident.incidents;
 
 import gestion.incident.incident.agence.AgenceRepository;
+import gestion.incident.incident.email.EmailService;
+import gestion.incident.incident.enumeration.MesPriorites;
 import gestion.incident.incident.exception.IncidentBadRequestException;
 import gestion.incident.incident.exception.IncidentConflictException;
 import gestion.incident.incident.exception.IncidentNotFoundException;
@@ -13,21 +15,33 @@ import java.util.Collection;
 public class IncidentService {
     @Autowired
     IncidentRepository incidentRepository;
+    @Autowired
+    private EmailService emailService;
     public Collection<Incident> getAllIncident(){
         return incidentRepository.findAll();
     }
 
-    public String addIncident(Incident i){
-        Incident existingIncident = incidentRepository.findById(i.getIdIncident()).orElse(null);
-        System.out.println(i.getDateClotureIncident());
-        if (existingIncident == null){
-            incidentRepository.save(i);
+    /*public String addIncident(Incident i){
+        //Incident existingIncident = incidentRepository.findById(i.getIdIncident()).orElse(null);
+        Incident existingIncident = incidentRepository.save(i);
+        if (existingIncident != null){
             return "L'incident a été ajouté avec succès";
         }else
         {
             throw new IncidentConflictException("L'incident existe déjà");
         }
+    }*/
+
+    public String addIncident(Incident i) {
+        Incident existingIncident = incidentRepository.save(i);
+        if (existingIncident != null) {
+            assignPriorityToIncident(existingIncident.getIdIncident()); // Appel de la méthode assignPriorityToIncident
+            return "L'incident a été ajouté avec succès";
+        } else {
+            throw new IncidentConflictException("L'incident existe déjà");
+        }
     }
+
 
 
     public Incident get(Long idIncident) {
@@ -71,6 +85,50 @@ public class IncidentService {
                         -> new IncidentNotFoundException(
                         "{Un incident avec le nom " + nomIncident+ " n'existe pas}"));
 
+    }
+
+
+   /* public void assignPriorityToIncident(Long idIncident, MesPriorites newPriority) {
+        Incident incident = incidentRepository.findById(idIncident).orElse(null);
+
+        // Récupérer l'adresse e-mail de l'utilisateur associé à l'incident
+        String userEmail = incident.getAgence().getClient().getUtilisateur().getEmail();
+
+        if (userEmail != null) {
+            String subject = "Nouvelle priorité d'incident";
+            String text = "Consultez votre page afin de régler cet incident dont la priorité est : " + newPriority+ "!!";
+
+            emailService.sendEmail(userEmail, subject, text);
+        }else{
+
+            System.out.println("Revoyez votre saisie");
+        }
+
+
+
+}*/
+
+    //Envoi d'email
+    public void assignPriorityToIncident(Long idIncident) {
+        Incident incident = incidentRepository.findById(idIncident).orElse(null);
+
+        if (incident != null) {
+            // Récupérer l'adresse e-mail de l'utilisateur associé à l'incident
+            String userEmail = incident.getAgence().getClient().getUtilisateur().getEmail();
+
+            MesPriorites newPriority = incident.getPrioriteIncident();
+
+            if (userEmail != null) {
+                String subject = incident.getAgence().getClient().getNomClient()+" - Nouveau incident";
+                String text = "Consultez votre page afin de régler l'incident de la société " +incident.getAgence().getClient().getNomClient()+ " pour son agence qui se trouve à "+incident.getAgence().getLieuAgence();
+
+                emailService.sendEmail(userEmail, subject, text);
+            } else {
+                System.out.println("Revoyez votre saisie");
+            }
+        } else {
+            System.out.println("Incident non trouvé");
+        }
     }
 
 

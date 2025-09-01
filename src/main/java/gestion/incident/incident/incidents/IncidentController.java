@@ -1,7 +1,9 @@
 package gestion.incident.incident.incidents;
 
+import gestion.incident.incident.enumeration.MesPriorites;
 import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -11,6 +13,7 @@ import java.util.Collection;
 public class IncidentController {
    @Autowired
     IncidentService incidentService;
+
     @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true")
 
 //Afficher tous les incidents
@@ -50,6 +53,12 @@ public class IncidentController {
     public Incident getIncidentByNom(@PathParam("nomIncident") String nomIncident ){
         return incidentService.getIncidentByNom(nomIncident);
 
+    }
+    //Envoyer un mail à un technicien
+    @PostMapping("/api/incidents/assign-priority")
+    public ResponseEntity<String> assignPriorityToIncident(@RequestParam Long idIncident) {
+        incidentService.assignPriorityToIncident(idIncident);
+        return ResponseEntity.ok("Incident envoyé avec succès !");
     }
 
 }

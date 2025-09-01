@@ -17,9 +17,9 @@ public class ProcedureService {
     }
 
     public String addProcedure(Procedure p){
-        Procedure existingProcedure = procedureRepository.findById(p.getIdProcedure()).orElse(null);
-        if (existingProcedure == null){
-            procedureRepository.save(p);
+        //Procedure existingProcedure = procedureRepository.findById(p.getIdProcedure()).orElse(null);
+        Procedure existingProcedure = procedureRepository.save(p);
+        if (existingProcedure != null){
             return "La procedure a été ajoutée avec succès";
         }else
         {

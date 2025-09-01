@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @SpringBootApplication
-public class  IncidentApplication {
+public class IncidentApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(IncidentApplication.class, args);
